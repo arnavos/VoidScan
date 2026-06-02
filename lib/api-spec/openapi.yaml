@@ -1,0 +1,1471 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: VoidScan Security Operations Centre API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: recon
+    description: Reconnaissance module
+  - name: threat
+    description: Threat intelligence module
+  - name: file
+    description: File analysis module
+  - name: password
+    description: Password security module
+  - name: network
+    description: Network analysis module
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  # ─── Reconnaissance ────────────────────────────────────────────────────────
+  /recon/whois:
+    post:
+      operationId: reconWhois
+      tags: [recon]
+      summary: WHOIS lookup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: WHOIS result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WhoisResult"
+
+  /recon/dns:
+    post:
+      operationId: reconDns
+      tags: [recon]
+      summary: DNS enumeration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: DNS records
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DnsResult"
+
+  /recon/reverse-dns:
+    post:
+      operationId: reconReverseDns
+      tags: [recon]
+      summary: Reverse DNS lookup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: Reverse DNS result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericResult"
+
+  /recon/asn:
+    post:
+      operationId: reconAsn
+      tags: [recon]
+      summary: ASN lookup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: ASN info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AsnResult"
+
+  /recon/geoip:
+    post:
+      operationId: reconGeoip
+      tags: [recon]
+      summary: IP Geolocation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: Geolocation data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GeoipResult"
+
+  /recon/ssl:
+    post:
+      operationId: reconSsl
+      tags: [recon]
+      summary: SSL Certificate Inspector
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: SSL certificate details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SslResult"
+
+  /recon/headers:
+    post:
+      operationId: reconHeaders
+      tags: [recon]
+      summary: HTTP Header Analyzer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: HTTP headers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HeadersResult"
+
+  /recon/tech-detect:
+    post:
+      operationId: reconTechDetect
+      tags: [recon]
+      summary: Technology Detection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: Detected technologies
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TechDetectResult"
+
+  /recon/subdomains:
+    post:
+      operationId: reconSubdomains
+      tags: [recon]
+      summary: Subdomain Discovery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: Discovered subdomains
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubdomainResult"
+
+  /recon/screenshot:
+    post:
+      operationId: reconScreenshot
+      tags: [recon]
+      summary: Website Screenshot Capture
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: Screenshot info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScreenshotResult"
+
+  # ─── Threat Intelligence ───────────────────────────────────────────────────
+  /threat/url-reputation:
+    post:
+      operationId: threatUrlReputation
+      tags: [threat]
+      summary: URL Reputation Checker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: URL reputation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReputationResult"
+
+  /threat/ip-reputation:
+    post:
+      operationId: threatIpReputation
+      tags: [threat]
+      summary: IP Reputation Checker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: IP reputation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReputationResult"
+
+  /threat/domain-reputation:
+    post:
+      operationId: threatDomainReputation
+      tags: [threat]
+      summary: Domain Reputation Checker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: Domain reputation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReputationResult"
+
+  /threat/phishing:
+    post:
+      operationId: threatPhishing
+      tags: [threat]
+      summary: Phishing Detection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: Phishing analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhishingResult"
+
+  /threat/suspicious-url:
+    post:
+      operationId: threatSuspiciousUrl
+      tags: [threat]
+      summary: Suspicious URL Analyzer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: Suspicious URL analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuspiciousUrlResult"
+
+  /threat/virustotal:
+    post:
+      operationId: threatVirusTotal
+      tags: [threat]
+      summary: VirusTotal Integration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: VirusTotal scan result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VirusTotalResult"
+
+  /threat/abuseipdb:
+    post:
+      operationId: threatAbuseIpdb
+      tags: [threat]
+      summary: AbuseIPDB Integration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: AbuseIPDB result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AbuseIpdbResult"
+
+  /threat/openphish:
+    post:
+      operationId: threatOpenPhish
+      tags: [threat]
+      summary: OpenPhish Feed Integration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: OpenPhish check result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericResult"
+
+  /threat/breach:
+    post:
+      operationId: threatBreach
+      tags: [threat]
+      summary: Known Data Breach Checker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: Breach check result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BreachResult"
+
+  # ─── File Analysis ─────────────────────────────────────────────────────────
+  /file/hash:
+    post:
+      operationId: fileHash
+      tags: [file]
+      summary: SHA256/MD5 Generator
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FileDataInput"
+      responses:
+        "200":
+          description: File hash results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HashResult"
+
+  /file/hash-compare:
+    post:
+      operationId: fileHashCompare
+      tags: [file]
+      summary: Hash Comparison
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HashCompareInput"
+      responses:
+        "200":
+          description: Hash comparison result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericResult"
+
+  /file/metadata:
+    post:
+      operationId: fileMetadata
+      tags: [file]
+      summary: File Metadata Extraction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FileDataInput"
+      responses:
+        "200":
+          description: File metadata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileMetadataResult"
+
+  /file/entropy:
+    post:
+      operationId: fileEntropy
+      tags: [file]
+      summary: Entropy Analysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FileDataInput"
+      responses:
+        "200":
+          description: Entropy analysis result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntropyResult"
+
+  /file/malware-hash:
+    post:
+      operationId: fileMalwareHash
+      tags: [file]
+      summary: Malware Hash Lookup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: Malware hash lookup result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MalwareHashResult"
+
+  /file/yara:
+    post:
+      operationId: fileYara
+      tags: [file]
+      summary: YARA Rule Scanner
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/YaraInput"
+      responses:
+        "200":
+          description: YARA scan result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/YaraResult"
+
+  /file/signature:
+    post:
+      operationId: fileSignature
+      tags: [file]
+      summary: File Signature Verification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FileDataInput"
+      responses:
+        "200":
+          description: File signature result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignatureResult"
+
+  # ─── Password Security ─────────────────────────────────────────────────────
+  /password/strength:
+    post:
+      operationId: passwordStrength
+      tags: [password]
+      summary: Password Strength Analyzer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasswordInput"
+      responses:
+        "200":
+          description: Password strength result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasswordStrengthResult"
+
+  /password/breach:
+    post:
+      operationId: passwordBreach
+      tags: [password]
+      summary: Password Breach Checker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasswordInput"
+      responses:
+        "200":
+          description: Breach check result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasswordBreachResult"
+
+  /password/entropy:
+    post:
+      operationId: passwordEntropy
+      tags: [password]
+      summary: Password Entropy Calculator
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasswordInput"
+      responses:
+        "200":
+          description: Entropy result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasswordEntropyResult"
+
+  /password/generate:
+    post:
+      operationId: passwordGenerate
+      tags: [password]
+      summary: Random Password Generator
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasswordGenerateInput"
+      responses:
+        "200":
+          description: Generated password
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasswordGenerateResult"
+
+  /password/passphrase:
+    post:
+      operationId: passwordPassphrase
+      tags: [password]
+      summary: Passphrase Generator
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PassphraseInput"
+      responses:
+        "200":
+          description: Generated passphrase
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PassphraseResult"
+
+  # ─── Network Analysis ──────────────────────────────────────────────────────
+  /network/port-scan:
+    post:
+      operationId: networkPortScan
+      tags: [network]
+      summary: Port Scanner
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PortScanInput"
+      responses:
+        "200":
+          description: Port scan result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PortScanResult"
+
+  /network/ping:
+    post:
+      operationId: networkPing
+      tags: [network]
+      summary: Ping Sweeper
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: Ping result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PingResult"
+
+  /network/traceroute:
+    post:
+      operationId: networkTraceroute
+      tags: [network]
+      summary: Traceroute Visualization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: Traceroute result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TracerouteResult"
+
+  /network/banner:
+    post:
+      operationId: networkBanner
+      tags: [network]
+      summary: Banner Grabbing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BannerInput"
+      responses:
+        "200":
+          description: Banner grab result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BannerResult"
+
+  /network/mapper:
+    post:
+      operationId: networkMapper
+      tags: [network]
+      summary: Network Mapper Dashboard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TargetInput"
+      responses:
+        "200":
+          description: Network map result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NetworkMapResult"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+
+    TargetInput:
+      type: object
+      required: [target]
+      properties:
+        target:
+          type: string
+
+    FileDataInput:
+      type: object
+      required: [filename, data]
+      properties:
+        filename:
+          type: string
+        data:
+          type: string
+          description: Base64 encoded file content
+        mimeType:
+          type: ["string", "null"]
+
+    PasswordInput:
+      type: object
+      required: [password]
+      properties:
+        password:
+          type: string
+
+    PasswordGenerateInput:
+      type: object
+      properties:
+        length:
+          type: ["integer", "null"]
+        includeUppercase:
+          type: ["boolean", "null"]
+        includeLowercase:
+          type: ["boolean", "null"]
+        includeNumbers:
+          type: ["boolean", "null"]
+        includeSymbols:
+          type: ["boolean", "null"]
+
+    PassphraseInput:
+      type: object
+      properties:
+        wordCount:
+          type: ["integer", "null"]
+        separator:
+          type: ["string", "null"]
+
+    PortScanInput:
+      type: object
+      required: [target]
+      properties:
+        target:
+          type: string
+        portRange:
+          type: ["string", "null"]
+          description: "e.g. '1-1024' or '80,443,8080'"
+
+    BannerInput:
+      type: object
+      required: [target, port]
+      properties:
+        target:
+          type: string
+        port:
+          type: integer
+
+    HashCompareInput:
+      type: object
+      required: [hash1, hash2]
+      properties:
+        hash1:
+          type: string
+        hash2:
+          type: string
+
+    YaraInput:
+      type: object
+      required: [data, rule]
+      properties:
+        data:
+          type: string
+          description: Base64 encoded content to scan
+        rule:
+          type: string
+          description: YARA rule text
+
+    GenericResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          additionalProperties: true
+        error:
+          type: ["string", "null"]
+        message:
+          type: ["string", "null"]
+
+    WhoisResult:
+      type: object
+      required: [success, target]
+      properties:
+        success:
+          type: boolean
+        target:
+          type: string
+        raw:
+          type: ["string", "null"]
+        registrar:
+          type: ["string", "null"]
+        createdDate:
+          type: ["string", "null"]
+        expiresDate:
+          type: ["string", "null"]
+        updatedDate:
+          type: ["string", "null"]
+        nameservers:
+          type: array
+          items:
+            type: string
+        status:
+          type: array
+          items:
+            type: string
+        error:
+          type: ["string", "null"]
+
+    DnsResult:
+      type: object
+      required: [success, target]
+      properties:
+        success:
+          type: boolean
+        target:
+          type: string
+        records:
+          type: object
+          additionalProperties: true
+        error:
+          type: ["string", "null"]
+
+    AsnResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        ip:
+          type: ["string", "null"]
+        asn:
+          type: ["string", "null"]
+        org:
+          type: ["string", "null"]
+        isp:
+          type: ["string", "null"]
+        country:
+          type: ["string", "null"]
+        error:
+          type: ["string", "null"]
+
+    GeoipResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        ip:
+          type: ["string", "null"]
+        country:
+          type: ["string", "null"]
+        countryCode:
+          type: ["string", "null"]
+        region:
+          type: ["string", "null"]
+        city:
+          type: ["string", "null"]
+        lat:
+          type: ["number", "null"]
+        lon:
+          type: ["number", "null"]
+        isp:
+          type: ["string", "null"]
+        org:
+          type: ["string", "null"]
+        timezone:
+          type: ["string", "null"]
+        error:
+          type: ["string", "null"]
+
+    SslResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        host:
+          type: ["string", "null"]
+        subject:
+          type: object
+          additionalProperties: true
+        issuer:
+          type: object
+          additionalProperties: true
+        validFrom:
+          type: ["string", "null"]
+        validTo:
+          type: ["string", "null"]
+        daysRemaining:
+          type: ["integer", "null"]
+        isExpired:
+          type: ["boolean", "null"]
+        protocol:
+          type: ["string", "null"]
+        serialNumber:
+          type: ["string", "null"]
+        fingerprint:
+          type: ["string", "null"]
+        subjectAltNames:
+          type: array
+          items:
+            type: string
+        error:
+          type: ["string", "null"]
+
+    HeadersResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        url:
+          type: ["string", "null"]
+        statusCode:
+          type: ["integer", "null"]
+        headers:
+          type: object
+          additionalProperties: true
+        securityHeaders:
+          type: object
+          additionalProperties: true
+        missingSecurityHeaders:
+          type: array
+          items:
+            type: string
+        error:
+          type: ["string", "null"]
+
+    TechDetectResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        url:
+          type: ["string", "null"]
+        technologies:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        error:
+          type: ["string", "null"]
+
+    SubdomainResult:
+      type: object
+      required: [success, target]
+      properties:
+        success:
+          type: boolean
+        target:
+          type: string
+        subdomains:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        count:
+          type: integer
+        error:
+          type: ["string", "null"]
+
+    ScreenshotResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        url:
+          type: ["string", "null"]
+        screenshotUrl:
+          type: ["string", "null"]
+        error:
+          type: ["string", "null"]
+
+    ReputationResult:
+      type: object
+      required: [success, target]
+      properties:
+        success:
+          type: boolean
+        target:
+          type: string
+        score:
+          type: ["integer", "null"]
+        verdict:
+          type: ["string", "null"]
+        categories:
+          type: array
+          items:
+            type: string
+        sources:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        error:
+          type: ["string", "null"]
+
+    PhishingResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        url:
+          type: ["string", "null"]
+        isPhishing:
+          type: ["boolean", "null"]
+        confidence:
+          type: ["number", "null"]
+        indicators:
+          type: array
+          items:
+            type: string
+        error:
+          type: ["string", "null"]
+
+    SuspiciousUrlResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        url:
+          type: ["string", "null"]
+        riskScore:
+          type: ["integer", "null"]
+        riskLevel:
+          type: ["string", "null"]
+        flags:
+          type: array
+          items:
+            type: string
+        details:
+          type: object
+          additionalProperties: true
+        error:
+          type: ["string", "null"]
+
+    VirusTotalResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        target:
+          type: ["string", "null"]
+        positives:
+          type: ["integer", "null"]
+        total:
+          type: ["integer", "null"]
+        scanDate:
+          type: ["string", "null"]
+        permalink:
+          type: ["string", "null"]
+        scans:
+          type: object
+          additionalProperties: true
+        error:
+          type: ["string", "null"]
+        requiresApiKey:
+          type: ["boolean", "null"]
+
+    AbuseIpdbResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        ip:
+          type: ["string", "null"]
+        abuseConfidenceScore:
+          type: ["integer", "null"]
+        totalReports:
+          type: ["integer", "null"]
+        lastReportedAt:
+          type: ["string", "null"]
+        countryCode:
+          type: ["string", "null"]
+        isp:
+          type: ["string", "null"]
+        categories:
+          type: array
+          items:
+            type: string
+        error:
+          type: ["string", "null"]
+        requiresApiKey:
+          type: ["boolean", "null"]
+
+    BreachResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        email:
+          type: ["string", "null"]
+        breaches:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        breachCount:
+          type: ["integer", "null"]
+        found:
+          type: ["boolean", "null"]
+        error:
+          type: ["string", "null"]
+
+    HashResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        filename:
+          type: ["string", "null"]
+        md5:
+          type: ["string", "null"]
+        sha1:
+          type: ["string", "null"]
+        sha256:
+          type: ["string", "null"]
+        sha512:
+          type: ["string", "null"]
+        size:
+          type: ["integer", "null"]
+        error:
+          type: ["string", "null"]
+
+    FileMetadataResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        filename:
+          type: ["string", "null"]
+        size:
+          type: ["integer", "null"]
+        mimeType:
+          type: ["string", "null"]
+        extension:
+          type: ["string", "null"]
+        magicBytes:
+          type: ["string", "null"]
+        encoding:
+          type: ["string", "null"]
+        error:
+          type: ["string", "null"]
+
+    EntropyResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        filename:
+          type: ["string", "null"]
+        entropy:
+          type: ["number", "null"]
+        interpretation:
+          type: ["string", "null"]
+        isSuspicious:
+          type: ["boolean", "null"]
+        byteDistribution:
+          type: object
+          additionalProperties: true
+        error:
+          type: ["string", "null"]
+
+    MalwareHashResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        hash:
+          type: ["string", "null"]
+        found:
+          type: ["boolean", "null"]
+        malwareName:
+          type: ["string", "null"]
+        malwareType:
+          type: ["string", "null"]
+        sources:
+          type: array
+          items:
+            type: string
+        error:
+          type: ["string", "null"]
+
+    YaraResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        matched:
+          type: ["boolean", "null"]
+        matchedRules:
+          type: array
+          items:
+            type: string
+        error:
+          type: ["string", "null"]
+
+    SignatureResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        filename:
+          type: ["string", "null"]
+        detectedType:
+          type: ["string", "null"]
+        magicBytes:
+          type: ["string", "null"]
+        isValid:
+          type: ["boolean", "null"]
+        details:
+          type: ["string", "null"]
+        error:
+          type: ["string", "null"]
+
+    PasswordStrengthResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        score:
+          type: integer
+        strength:
+          type: string
+        crackTime:
+          type: string
+        suggestions:
+          type: array
+          items:
+            type: string
+        hasUppercase:
+          type: boolean
+        hasLowercase:
+          type: boolean
+        hasNumbers:
+          type: boolean
+        hasSymbols:
+          type: boolean
+        length:
+          type: integer
+
+    PasswordBreachResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        found:
+          type: boolean
+        breachCount:
+          type: ["integer", "null"]
+        error:
+          type: ["string", "null"]
+
+    PasswordEntropyResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        entropy:
+          type: number
+        charsetSize:
+          type: integer
+        length:
+          type: integer
+        interpretation:
+          type: string
+        yearsToBreak:
+          type: ["string", "null"]
+
+    PasswordGenerateResult:
+      type: object
+      required: [success, password]
+      properties:
+        success:
+          type: boolean
+        password:
+          type: string
+        strength:
+          type: string
+        entropy:
+          type: number
+
+    PassphraseResult:
+      type: object
+      required: [success, passphrase]
+      properties:
+        success:
+          type: boolean
+        passphrase:
+          type: string
+        words:
+          type: array
+          items:
+            type: string
+        entropy:
+          type: number
+
+    PortScanResult:
+      type: object
+      required: [success, target]
+      properties:
+        success:
+          type: boolean
+        target:
+          type: string
+        ip:
+          type: ["string", "null"]
+        ports:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        openCount:
+          type: integer
+        scanDuration:
+          type: ["number", "null"]
+        error:
+          type: ["string", "null"]
+
+    PingResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        host:
+          type: ["string", "null"]
+        ip:
+          type: ["string", "null"]
+        alive:
+          type: ["boolean", "null"]
+        responseTime:
+          type: ["number", "null"]
+        ttl:
+          type: ["integer", "null"]
+        error:
+          type: ["string", "null"]
+
+    TracerouteResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        host:
+          type: ["string", "null"]
+        hops:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        error:
+          type: ["string", "null"]
+
+    BannerResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        host:
+          type: ["string", "null"]
+        port:
+          type: ["integer", "null"]
+        banner:
+          type: ["string", "null"]
+        service:
+          type: ["string", "null"]
+        error:
+          type: ["string", "null"]
+
+    NetworkMapResult:
+      type: object
+      required: [success]
+      properties:
+        success:
+          type: boolean
+        target:
+          type: ["string", "null"]
+        ip:
+          type: ["string", "null"]
+        hostname:
+          type: ["string", "null"]
+        openPorts:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        geoip:
+          type: object
+          additionalProperties: true
+        ssl:
+          type: object
+          additionalProperties: true
+        dns:
+          type: object
+          additionalProperties: true
+        error:
+          type: ["string", "null"]

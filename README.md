@@ -27,3 +27,6 @@ The frontend proxies `/api` requests to the local API server during development.
 - `lib/api-spec/openapi.yaml` API contract
 - `lib/api-client-react/src/generated/` generated React Query hooks
 - `lib/api-zod/src/generated/` generated Zod schemas
+
+
+Authored by: Arnav & Namish.

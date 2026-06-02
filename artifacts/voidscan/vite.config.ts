@@ -5,7 +5,7 @@ import path from "path";
 
 const DEFAULT_PORT = 5173;
 const API_PROXY_TARGET = process.env.VITE_API_PROXY_TARGET ?? "http://127.0.0.1:8080";
-const basePath = process.env.BASE_PATH ?? "/VoidScan/";
+const basePath = process.env.BASE_PATH ?? "/";
 const rawPort = process.env.PORT;
 const port = rawPort ? Number(rawPort) : DEFAULT_PORT;
 

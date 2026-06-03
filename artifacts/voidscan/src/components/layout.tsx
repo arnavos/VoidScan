@@ -46,7 +46,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <div className="w-64 border-r border-border bg-card flex flex-col z-10">
         <div className="h-20 p-4 border-b border-border flex items-center justify-center overflow-hidden">
           <img
-            src="/logo.svg"
+            src={`${import.meta.env.BASE_URL}logo.svg`}
             alt="VOIDSCAN"
             className="h-full w-full object-contain"
             style={{

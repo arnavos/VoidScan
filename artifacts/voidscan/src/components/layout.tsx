@@ -44,13 +44,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <div className="scanline" />
       {/* Sidebar */}
       <div className="w-64 border-r border-border bg-card flex flex-col z-10">
-        <div className="p-6 border-b border-border flex items-center gap-3">
-          <div className="w-8 h-8 rounded bg-primary/10 flex items-center justify-center border border-primary/20">
-            <Shield className="w-5 h-5 text-primary" />
-          </div>
-          <div className="font-mono text-xl font-bold tracking-wider text-primary">
-            VOIDSCAN
-          </div>
+        <div className="h-20 p-4 border-b border-border flex items-center justify-center overflow-hidden">
+          <img
+            src="/logo.svg"
+            alt="VOIDSCAN"
+            className="h-full w-full object-contain"
+            style={{
+              mixBlendMode: "screen",
+              filter: "brightness(145%) contrast(250%)",
+              transform: "scale(4)",
+              transformOrigin: "center",
+            }}
+          />
         </div>
         <nav className="flex-1 overflow-y-auto py-4">
           <ul className="space-y-1 px-3">

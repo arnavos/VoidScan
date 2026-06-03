@@ -1,0 +1,1 @@
+{"version":3,"file":"yaraResult.d.ts","sourceRoot":"","sources":["../../../src/generated/types/yaraResult.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AAEH,MAAM,WAAW,UAAU;IACzB,OAAO,EAAE,OAAO,CAAC;IACjB,gBAAgB;IAChB,OAAO,CAAC,EAAE,OAAO,GAAG,IAAI,CAAC;IACzB,YAAY,CAAC,EAAE,MAAM,EAAE,CAAC;IACxB,gBAAgB;IAChB,KAAK,CAAC,EAAE,MAAM,GAAG,IAAI,CAAC;CACvB"}
